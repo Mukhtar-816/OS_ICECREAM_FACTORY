@@ -31,6 +31,7 @@ int main(int argc , char *argv[])
      
     puts("Connected\n");
       message="....................I am client one , i make 'CONES' of icecreams .....................\n"; 
+    int read_size;
     //keep communicating with server
     int n=3;
     while(n!=0)
@@ -45,11 +46,12 @@ int main(int argc , char *argv[])
         }
         } 
         //Receive a reply from the server
-        if( recv(sock , server_reply , 2000 , 0) < 0)
+        if( (read_size = recv(sock , server_reply , 1999 , 0)) < 0)
         {
             puts("recv failed");
             break;
         }
+        server_reply[read_size] = 0;
          
         puts("Server reply :");
         puts(server_reply);

@@ -53,14 +53,20 @@ int main(int argc , char *argv[])
         write(new_socket , message , strlen(message));
    
         pthread_t sniffer_thread;
-        new_sock = malloc(1);
+        new_sock = malloc(sizeof(int));
+        if (new_sock == NULL) {
+            perror("malloc failed");
+            continue;
+        }
         *new_sock = new_socket;
          
         if( pthread_create( &sniffer_thread , NULL ,  connection_handler , (void*) new_sock) < 0)
         {
             perror("could not create thread");
+            free(new_sock);
             return 1;
         }
+        pthread_detach(sniffer_thread);
          
         puts("Handler assigned");
     }
@@ -84,21 +90,23 @@ void *connection_handler(void *socket_desc)
     //Get the socket descriptor
     int sock = *(int*)socket_desc;
     int read_size;
-    char *message , client_message[2000];
     char *message1;
     char *message2; 
+    char client_message[2000];
+    
     //Send some messages to the client
     message1 = "........................Greetings! I am your connection handler........................\n";
     write(sock , message1 , strlen(message1));
      
     //Receive a message from client
-    while( (read_size = recv(sock , client_message , 2000 , 0)) > 0 )
+    while( (read_size = recv(sock , client_message , 1999 , 0)) > 0 )
     { 
-      
-         puts(client_message);
+        client_message[read_size] = '\0';
+        puts(client_message);
         //Send the message back to client
         message2="...................................ok_i_GOT_it.........................................\n";
-        write(sock , message2 , strlen(message2));}
+        write(sock , message2 , strlen(message2));
+    }
   
      
     if(read_size == 0)

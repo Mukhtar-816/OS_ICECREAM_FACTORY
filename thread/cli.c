@@ -175,7 +175,8 @@ case 5:
     pthread_join(thread_c, NULL);
     pthread_join(thread_d, NULL);
     pthread_join(thread_e, NULL);
- //   
+    break;
+   
 case 6: 
     
     n=0;
