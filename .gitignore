@@ -1,0 +1,32 @@
+# --- Binaries & Executables ---
+# Ignore the specific output files from your Makefile
+ice_factory
+ice_sim
+icefacv1
+*.out
+*.exe
+*.app
+
+# --- Object Files & Libraries ---
+*.o
+*.a
+*.so
+*.dylib
+
+# --- Build & Dependency Folders ---
+# If raylib is a compiled library folder, you might want to ignore its build artifacts
+raylib/build/
+raylib/bin/
+
+# --- IDE & System Files ---
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+build/
+
+# --- Version Control specific ---
+# To fix the "embedded repository" warning for raylib, 
+# ensure you aren't tracking raylib's own .git folder
+!raylib/
